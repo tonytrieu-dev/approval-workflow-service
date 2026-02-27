@@ -1,4 +1,4 @@
-# Design Decisions: Approval Workflow Service
+# Design Decisions
 
 ## Problem and Approach
 
