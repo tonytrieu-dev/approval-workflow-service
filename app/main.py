@@ -69,8 +69,8 @@ def resolve_workflow(workflow_id: str, target_status: WorkflowStatus, reviewed_b
 
 @app.post("/v1/workflows", response_model=CreateWorkflowResponse, status_code=201)
 def create_workflow(workflow_request: CreateWorkflowRequest) -> CreateWorkflowResponse:
-    now = datetime.now(timezone.utc)
-    expires_at = now + timedelta(minutes=workflow_request.timeout_minutes)
+    current_time = datetime.now(timezone.utc)
+    expires_at = current_time + timedelta(minutes=workflow_request.timeout_minutes)
 
     record = WorkflowRecord(
         workflow_id=str(uuid.uuid4()),
@@ -78,7 +78,7 @@ def create_workflow(workflow_request: CreateWorkflowRequest) -> CreateWorkflowRe
         requested_by=workflow_request.requested_by,
         context=workflow_request.context,
         status=WorkflowStatus.PENDING,
-        created_at=now,
+        created_at=current_time,
         expires_at=expires_at,
     )
     store.create(record)
